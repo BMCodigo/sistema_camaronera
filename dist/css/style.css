@@ -1,0 +1,81 @@
+
+
+.colUno {
+	margin-top: -15px;
+}
+.colDos {
+	margin-top: -15px;
+}
+
+.inputs {
+ 
+  width: 55px;
+  border: none;
+  text-decoration: none;
+  background: #fff;
+  
+}
+
+.input2 {  
+
+  width: 50px;
+  text-align: center; 
+  
+}
+
+
+.input-edit {  
+
+  width: 50px;
+  text-align: center; 
+  
+}
+
+.inputdens {
+ 
+  width: 80px;
+  border: none;
+  text-decoration: none;
+  background: #fff;
+  
+}
+
+
+.select {
+  text-align: center;
+  width: 110px;
+  border: none;
+  text-decoration: none;
+  background: #fff;
+  
+}
+
+.iframe{
+  width:1330px;
+  max-width: 1330px;
+  margin-left: -10%;
+  height:40rem;
+}
+
+input .pre{
+  background-color: #FB8F78;
+}
+
+.table{
+  padding: 0;
+}
+.scroll {
+  margin: 4px, 4px;
+  padding: 4px;
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+.container-login{
+  margin: auto;
+}
+
+ .mx-auto {
+  margin-left: -80%;
+}
+

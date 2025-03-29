@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <style>
+        .scrollable-section {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .scrollable-section thead {
+            position: sticky;
+            top: 0;
+            background: #404e67;
+            z-index: 2;
+        }
+    </style>
+
+    <table class="table table-sm" style="width:850px; margin:auto;">
+
+        <!-- Parte fija -->
+        <thead style="background: #404e67;">
+            <tr>
+                <th class="text-white text-center">Rubros</th>
+                <th class="text-white text-center">Presupuesto aprobado act</th>
+                <th class="text-white text-center">Ejecución real</th>
+                <th class="text-white text-center">% ejecutado</th>
+                <th class="text-white text-center">% participación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">Hectáreas</td>
+                <td class="text-center">84,6</td>
+                <td class="text-center">84,3</td>
+                <td class="text-center">99,65%</td>
+                <td class="text-center">99,65%</td>
+            </tr>
+            <tr>
+                <td class="text-center">Días</td>
+                <td class="text-center">30</td>
+                <td class="text-center">20</td>
+                <td class="text-center">66,67%</td>
+                <td class="text-center">66,67%</td>
+            </tr>
+            <tr>
+                <td class="text-center">Costo hectárea día</td>
+                <td class="text-center">83.595,43</td>
+                <td class="text-center">19.410,20</td>
+                <td class="text-center">23,22%</td>
+                <td class="text-center">23,22%</td>
+            </tr>
+            <tr>
+                <td class="text-center">Rubros ejecutados real</td>
+                <td class="text-center">32,94</td>
+                <td class="text-center">11,47</td>
+                <td class="text-center">34,83%</td>
+                <td class="text-center">34,83%</td>
+            </tr>
+        </tbody>
+
+        <!-- Parte scrollable -->
+    </table>
+
+    <div class="scrollable-section">
+        <table class="table table-sm" style="width:850px; margin:auto;">
+
+            <!-- Materia prima y subrubros -->
+            <thead>
+                <tr>
+                    <th class="text-white text-center">Materia prima</th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fertilizantes</td>
+                    <td>1.000,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Vitaminas</td>
+                    <td>100,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Bacterias</td>
+                    <td>5.000,00</td>
+                    <td>19.327,21</td>
+                    <td>386,54%</td>
+                    <td>386,54%</td>
+                </tr>
+                <tr>
+                    <td>Desparasitantes</td>
+                    <td>0,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Antibióticos</td>
+                    <td>0,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Regulador de suelo y agua</td>
+                    <td>2.500,00</td>
+                    <td>74,46</td>
+                    <td>2,98%</td>
+                    <td>2,98%</td>
+                </tr>
+                <tr>
+                    <td>Peróxido</td>
+                    <td>0,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Probióticos</td>
+                    <td>0,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Otras materias primas</td>
+                    <td>1.600,00</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+            </tbody>
+
+            <!-- Mano de obra -->
+            <thead>
+                <tr>
+                    <th class="text-white text-center">Mano de obra</th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sueldo personal</td>
+                    <td>19.380,51</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Beneficio social IESS</td>
+                    <td>5.049,40</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>Extras de personal</td>
+                    <td>1.163,60</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+            </tbody>
+
+            <!-- Indirectos -->
+            <thead>
+                <tr>
+                    <th class="text-white text-center">Indirectos</th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                    <th class="text-white text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mantenimiento red eléctrica</td>
+                    <td>47.801,92</td>
+                    <td>0,00</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+
+</html>
