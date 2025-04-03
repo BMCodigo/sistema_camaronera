@@ -204,18 +204,48 @@ class ModeloTrazabilidadEjecucion {
           $html .= "
           <div class='table-row'>
             <div class='table-cell sticky bg-white'>" . ucfirst($descripcion) . "</div>
-            <div class='table-cell sticky-col-2 bg-white'>" . number_format($presupuesto_aprobado, 2) . "</div>
-            <div class='table-cell bg-white'>" . number_format($costoTotal, 2) . "</div>
-            <div class='table-cell bg-white' style='color:$color;'>" . number_format($porcentaje, 2) . "%</div>
-          </div>";
+            <div class='table-cell sticky-col-2 bg-white'>" . number_format($presupuesto_aprobado, 2) . "</div>";
+            
+          $costosMensuales = $this->getCostosMensualesPorFamilia($item['descripcion']);
+          foreach ($costosMensuales as $valorMes) {
+            $html .= "<div class='table-cell bg-white'>" . number_format($valorMes, 2) . "</div>";
+            $porcentajeMes = ($presupuesto_aprobado > 0) ? ($valorMes / $presupuesto_aprobado * 100) : 0;
+            $html .= "<div class='table-cell bg-white'>" . number_format($porcentajeMes, 2) . "%</div>";
+          }
+          $html .= "</div>";
+          
         }
       
         return $html;
       }
       
+      private function getCostosMensualesPorCuentaMadre($cuentaMadre) {
+        $sql = "SELECT 
+                  EXTRACT(MONTH FROM t1.fecha_consumo) AS mes,
+                  SUM(t1.total) AS costoTotal
+                FROM costos_camaronera t1
+                JOIN registro_piscina_engorde t2 
+                  ON t1.id_camaronera = t2.id_camaronera 
+                  AND t1.id_piscina = t2.id_piscina 
+                  AND t1.id_corrida = t2.id_corrida
+                WHERE t1.cuentaMadre = '$cuentaMadre' 
+                  AND t2.estado = 'En proceso' 
+                  AND t1.id_camaronera = '{$this->camaronera}'
+                  AND t1.fecha_consumo BETWEEN '2025-01-01' AND CURRENT_DATE
+                GROUP BY mes";
+      
+        $result = $this->conectar->mostrar($sql);
+        $meses = array_fill(1, 12, 0);
+        foreach ($result as $row) {
+          $meses[(int)$row['mes']] = (float)$row['costoTotal'];
+        }
+        return $meses;
+      }
+      
       public function getResumenCuentaCabeceraObra($cuentaMadre) {
         $html = "";
-
+      
+        // Obtener presupuesto total
         $sqlPresupuesto = "SELECT 
             SUM(p.presupuesto_aprobado) AS presupuesto_aprobado_camaronera, 
             p.cuentaMadre
@@ -228,10 +258,11 @@ class ModeloTrazabilidadEjecucion {
             WHERE id_camaronera = '{$this->camaronera}' 
             AND cuentaMadre = '$cuentaMadre'
             )";
-
+      
         $data = $this->conectar->mostrar($sqlPresupuesto);
         $totalPresupuesto = isset($data[0]['presupuesto_aprobado_camaronera']) ? $data[0]['presupuesto_aprobado_camaronera'] : 0;
-
+      
+        // Obtener ejecución total
         $sqlEjecutadoCamaronera = "SELECT 
             SUM(t1.total) AS costoTotal
             FROM costos_camaronera t1
@@ -242,26 +273,120 @@ class ModeloTrazabilidadEjecucion {
             WHERE t2.estado = 'En proceso'
             AND t1.cuentaMadre = '$cuentaMadre'
             AND t1.id_camaronera = '{$this->camaronera}'";
-
+      
         $dataEjecutado = $this->conectar->mostrar($sqlEjecutadoCamaronera);
         $totalCostoEjecutado = isset($dataEjecutado[0]['costoTotal']) ? $dataEjecutado[0]['costoTotal'] : 0;
+      
         $porcentaje = ($totalPresupuesto > 0) ? ($totalCostoEjecutado / $totalPresupuesto) * 100 : 0;
-
         $hue = max(0, min(120 - ($porcentaje * 1.2), 120));
         $color = "hsl($hue, 80%, 40%)";
-
+      
         $titulo = ucfirst(str_replace('_', ' ', $cuentaMadre));
-
+      
+        // Obtener costos mensuales
+        $costosMensuales = $this->getCostosMensualesPorCuentaMadre($cuentaMadre);
+      
         $html .= "<div class='table-row table-category'>
             <div class='table-cell sticky bg-blue-custom'>$titulo</div>
             <div class='table-cell sticky-col-2 bg-blue-custom'>" . number_format($totalPresupuesto, 2) . "</div>
             <div class='table-cell bg-blue-custom'>" . number_format($totalCostoEjecutado, 2) . "</div>
-            <div class='table-cell bg-blue-custom' style='color:$color;'>" . number_format($porcentaje, 2) . "%</div>
-        </div>";
-
-        return $html;
-    }
+            <div class='table-cell bg-blue-custom' style='color:$color;'>" . number_format($porcentaje, 2) . "%</div>";
       
+        // Agregar 12 columnas (una por mes)
+        foreach ($costosMensuales as $mes => $valorMes) {
+          $html .= "<div class='table-cell bg-blue-custom'>" . number_format($valorMes, 2) . "</div>";
+          $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
+          $html .= "<div class='table-cell bg-blue-custom'>" . number_format($porcentajeMes, 2) . "%</div>";
+        }
+      
+        $html .= "</div>";
+      
+        return $html;
+      }
+      
+      
+
+    /*
+      SELECT EXTRACT(YEAR FROM t1.fecha_consumo) AS anio, 
+      EXTRACT(MONTH FROM t1.fecha_consumo) AS mes, 
+      SUM(t1.total) AS costoTotal 
+      FROM costos_camaronera t1 
+      JOIN registro_piscina_engorde t2 ON t1.id_camaronera = t2.id_camaronera 
+      AND t1.id_piscina = t2.id_piscina AND t1.id_corrida = t2.id_corrida 
+      WHERE t2.estado = 'En proceso' AND t1.fecha_consumo 
+      BETWEEN '2025-01-01' 
+      AND CURRENT_DATE AND t1.cuentaMadre IN ('materia_prima', 'mano_obra', 'indirectos') 
+      GROUP BY anio, mes ORDER BY anio, mes;
+    */
+
+    public function getAllMesMes() {
+      $sql = "SELECT 
+                EXTRACT(YEAR FROM t1.fecha_consumo) AS anio, 
+                EXTRACT(MONTH FROM t1.fecha_consumo) AS mes, 
+                SUM(t1.total) AS costoTotal 
+              FROM costos_camaronera t1 
+              JOIN registro_piscina_engorde t2 
+                ON t1.id_camaronera = t2.id_camaronera 
+                AND t1.id_piscina = t2.id_piscina 
+                AND t1.id_corrida = t2.id_corrida 
+              WHERE t2.estado = 'En proceso' 
+                AND t1.fecha_consumo BETWEEN '2025-01-01' AND CURRENT_DATE 
+                AND t1.cuentaMadre IN ('materia_prima', 'mano_obra', 'indirectos') 
+              GROUP BY anio, mes 
+              ORDER BY anio, mes";
+      $result = $this->conectar->mostrar($sql);
+      $data = array_map(function($row) {
+        return [
+          'anio' => $row['anio'],
+          'mes' => $row['mes'],
+          'costoTotal' => $row['costoTotal']
+        ];
+      }, $result);
+
+      /*validar que esten todo los meses */
+      $meses = range(1, 12);
+      $mesesFaltantes = array_diff($meses, array_column($data, 'mes'));
+      foreach ($mesesFaltantes as $mesFaltante) {
+        $data[] = [
+          'anio' => date('Y'),
+          'mes' => $mesFaltante,
+          'costoTotal' => 0
+        ];
+      }
+      /*fin validar que esten todo los meses */
+      usort($data, function($a, $b) {
+        return ($a['anio'] == $b['anio']) ? ($a['mes'] - $b['mes']) : ($a['anio'] - $b['anio']);
+      });
+
+      echo "<pre>";
+      print_r($data);
+      return $data;
+    }	
+
+    private function getCostosMensualesPorFamilia($familia) {
+      $sql = "SELECT 
+                EXTRACT(MONTH FROM t1.fecha_consumo) AS mes,
+                SUM(t1.total) AS costoTotal
+              FROM costos_camaronera t1
+              JOIN registro_piscina_engorde t2 
+                ON t1.id_camaronera = t2.id_camaronera 
+                AND t1.id_piscina = t2.id_piscina 
+                AND t1.id_corrida = t2.id_corrida
+              WHERE t1.familia = '$familia' 
+                AND t2.estado = 'En proceso' 
+                AND t1.id_camaronera = '{$this->camaronera}' 
+                AND t1.fecha_consumo BETWEEN '2025-01-01' AND CURRENT_DATE
+              GROUP BY mes";
+    
+      $result = $this->conectar->mostrar($sql);
+      $meses = array_fill(1, 12, 0); // Inicializa todos en 0
+      foreach ($result as $row) {
+        $meses[(int)$row['mes']] = (float)$row['costoTotal'];
+      }
+      return $meses;
+    }
+    
+
   }
   
 ?>

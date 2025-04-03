@@ -31,6 +31,14 @@
         </div>
 
         <div class="p-2 bd-highlight">
+            <a href="index.php?page=insumostrazabilidadejecutada" class="text-white text-decoration-none">
+                <li class="list-group-item  text-white text-center" style="background: #404e67; border-radius: 10px; height: 30px; padding: 7px 10px; font-size: 14px; line-height: 1;">
+                Insumos trazabilidad ejecutada
+                </li>
+            </a>
+        </div>
+        
+        <div class="p-2 bd-highlight">
             <?php
                 // Consulta para obtener todas las piscinas en proceso
                 $sqlPiscinas = "SELECT DISTINCT id_piscina, hectareas FROM registro_piscina_engorde WHERE estado = 'En proceso' AND id_camaronera = '$camaronera' ORDER BY id_piscina ASC LIMIT 1;";
