@@ -205,13 +205,12 @@ class ModeloTrazabilidadEjecucion {
           <div class='table-row'>
             <div class='table-cell sticky bg-white'>" . ucfirst($descripcion) . "</div>
             <div class='table-cell sticky-col-2 bg-white'>" . number_format($presupuesto_aprobado, 2) . "</div>";
-            
-          $costosMensuales = $this->getCostosMensualesPorFamilia($item['descripcion']);
-          foreach ($costosMensuales as $valorMes) {
-            $html .= "<div class='table-cell bg-white'>" . number_format($valorMes, 2) . "</div>";
-            $porcentajeMes = ($presupuesto_aprobado > 0) ? ($valorMes / $presupuesto_aprobado * 100) : 0;
-            $html .= "<div class='table-cell bg-white'>" . number_format($porcentajeMes, 2) . "%</div>";
-          }
+            $costosMensuales = $this->getCostosMensualesPorFamilia($item['descripcion']);
+            foreach ($costosMensuales as $valorMes) {
+              $html .= "<div class='table-cell bg-white'>" . number_format($valorMes, 2) . "</div>";
+              $porcentajeMes = ($presupuesto_aprobado > 0) ? ($valorMes / $presupuesto_aprobado * 100) : 0;
+              $html .= "<div class='table-cell bg-white'>" . number_format($porcentajeMes, 2) . "%</div>";
+            }
           $html .= "</div>";
           
         }
@@ -319,7 +318,8 @@ class ModeloTrazabilidadEjecucion {
       GROUP BY anio, mes ORDER BY anio, mes;
     */
 
-    public function getAllMesMes() {
+
+    public function getAllMesMes($tablas) {
       $sql = "SELECT 
                 EXTRACT(YEAR FROM t1.fecha_consumo) AS anio, 
                 EXTRACT(MONTH FROM t1.fecha_consumo) AS mes, 
@@ -331,36 +331,19 @@ class ModeloTrazabilidadEjecucion {
                 AND t1.id_corrida = t2.id_corrida 
               WHERE t2.estado = 'En proceso' 
                 AND t1.fecha_consumo BETWEEN '2025-01-01' AND CURRENT_DATE 
-                AND t1.cuentaMadre IN ('materia_prima', 'mano_obra', 'indirectos') 
+                -- 'materia_prima', 'mano_obra', 'indirectos'
+                AND t1.cuentaMadre IN ($tablas) 
               GROUP BY anio, mes 
               ORDER BY anio, mes";
-      $result = $this->conectar->mostrar($sql);
-      $data = array_map(function($row) {
-        return [
-          'anio' => $row['anio'],
-          'mes' => $row['mes'],
-          'costoTotal' => $row['costoTotal']
-        ];
-      }, $result);
+          $result = $this->conectar->mostrar($sql);
 
-      /*validar que esten todo los meses */
-      $meses = range(1, 12);
-      $mesesFaltantes = array_diff($meses, array_column($data, 'mes'));
-      foreach ($mesesFaltantes as $mesFaltante) {
-        $data[] = [
-          'anio' => date('Y'),
-          'mes' => $mesFaltante,
-          'costoTotal' => 0
-        ];
-      }
-      /*fin validar que esten todo los meses */
-      usort($data, function($a, $b) {
-        return ($a['anio'] == $b['anio']) ? ($a['mes'] - $b['mes']) : ($a['anio'] - $b['anio']);
-      });
+          // Transformamos el resultado
+          $meses = array_fill(1, 12, 0); // Inicializa meses vacíos
+          foreach ($result as $row) {
+            $meses[(int)$row['mes']] = (float)$row['costoTotal'];
+          }
 
-      echo "<pre>";
-      print_r($data);
-      return $data;
+        return $meses;
     }	
 
     private function getCostosMensualesPorFamilia($familia) {
