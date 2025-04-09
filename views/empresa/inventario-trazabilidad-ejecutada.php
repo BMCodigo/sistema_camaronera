@@ -327,12 +327,12 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         <?php
           $costosMensuales = $modelo->getAllMesMes("'materia_prima'");
           $totalPresupuesto = $sqlRubros['presupuesto'];
-          
           foreach ($costosMensuales as $mes => $valorMes) {
             echo '<div class="table-cells bg-white">' . number_format($valorMes, 2) . "</div>";
             $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
             echo '<div class="table-cells bg-white">' . number_format($porcentajeMes, 2) . "%</div>";
-            echo '<div class="table-cells bg-white">' . number_format(0, 2) . ' %</div>';
+            $porcentajeParticipacion = ($valorMes / $sqlRubros['presupuesto']) * 100;
+            echo '<div class="table-cells bg-white">' . number_format($porcentajeParticipacion, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -349,12 +349,16 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
             ?>
           </div>
           <?php
+            $costosMensuales = $modelo->getAllMesMes("'materia_prima'");
+            $totalPresupuesto = $sqlRubros['presupuesto'];
             for ($mes = 1; $mes <= 12; $mes++) {
               $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
+              $valorMes = isset($costosMensuales[$mes]) ? $costosMensuales[$mes] : 0;
+
               echo '<div class="table-cells bg-blue-custom">' . number_format($valorEjecutado, 2) . '</div>';
               $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
               echo '<div class="table-cells bg-blue-custom">' . number_format($porcentaje, 2) . ' %</div>';
-              echo '<div class="table-cells bg-blue-custom">' . number_format(0, 2) . ' %</div>';
+              echo '<div class="table-cells bg-blue-custom">' . number_format(0,2) . ' %</div>';
             }
           ?>
         </div>

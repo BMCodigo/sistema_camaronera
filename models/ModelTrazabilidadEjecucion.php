@@ -206,11 +206,14 @@ class ModeloTrazabilidadEjecucion {
             <div class='table-cell sticky bg-white'>" . ucfirst($descripcion) . "</div>
             <div class='table-cell sticky-col-2 bg-white'>" . number_format($presupuesto_aprobado, 2) . "</div>";
             $costosMensuales = $this->getCostosMensualesPorFamilia($item['descripcion']);
-            foreach ($costosMensuales as $valorMes) {
+            $Mensuales = $this->getAllMesMes("'materia_prima'");
+            foreach ($costosMensuales as $mes => $valorMes) {
               $html .= "<div class='table-cells bg-white'>" . number_format($valorMes, 2) . "</div>";
               $porcentajeMes = ($presupuesto_aprobado > 0) ? ($valorMes / $presupuesto_aprobado * 100) : 0;
               $html .= "<div class='table-cells bg-white'>" . number_format($porcentajeMes, 2) . "%</div>";
-              $html .= "<div class='table-cells bg-white'>" . number_format(0, 2) . "%</div>";
+              
+              $porcentajeMensual = ($Mensuales[$mes] > 0) ? ($valorMes / $Mensuales[$mes] * 100) : 0;
+              $html .= "<div class='table-cells bg-white'>" . number_format($porcentajeMensual, 2) . "%</div>";
             }
           $html .= "</div>";
           
