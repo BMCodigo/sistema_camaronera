@@ -126,8 +126,8 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
 
   .table-cells {
     padding: 2px 2px;
-    border-bottom: 1px solid #DEE2E6;
-    border-top: 1px solid #DEE2E6;
+    border-bottom: 0.5px solid #DEE2E6;
+    border-top: 0.5px solid #DEE2E6;
     min-width: 70px;
     text-align: center;
     min-height: 15px
