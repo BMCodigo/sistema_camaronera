@@ -284,7 +284,24 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         ?>
       </div>
 
-      <div class="table-row sticky-y-4">
+      <div class="table-row sticky-y-4 ">
+        <div class="table-cell sticky bg-white">Costo hectarea dia</div>
+        <div class="table-cell sticky-col-2 bg-white">
+          <?php
+           echo number_format($sqlRubros['presupuesto'] / $sqlHa['hectareas'] / $sqlDias['dias'], 2);
+          ?>
+        </div>
+        <?php
+          for ($mes = 1; $mes <= 12; $mes++) {
+            $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
+            echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
+            $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
+            echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+          }
+        ?>
+      </div>
+
+      <div class="table-row sticky-y-5">
         <div class="table-cell sticky bg-white">Rubros ejecutados real</div>
         <div class="table-cell sticky-col-2 bg-white">
           <?php
@@ -303,22 +320,8 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
           }
         ?>
       </div>
-      <div class="table-row sticky-y-5 ">
-        <div class="table-cell sticky bg-white">Costo hectarea dia</div>
-        <div class="table-cell sticky-col-2 bg-white">
-          <?php
-           echo number_format($sqlRubros['presupuesto'] / $sqlHa['hectareas'] / $sqlDias['dias'], 2);
-          ?>
-        </div>
-        <?php
-          for ($mes = 1; $mes <= 12; $mes++) {
-            $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
-            echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
-            $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
-            echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
-          }
-        ?>
-      </div>
+
+
       
 
       <div>
