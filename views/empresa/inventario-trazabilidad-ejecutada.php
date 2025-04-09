@@ -68,7 +68,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
 
   .sticky-col-2 {
     position: sticky;
-    left: 250px;
+    left: 180px;
   }
 
   .sticky-y-1 {
@@ -117,9 +117,9 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
 
   .table-cell {
     padding: 2px 2px;
-    border-bottom: 1px solid #DEE2E6;
-    border-top: 1px solid #DEE2E6;
-    min-width: 250px;
+    border-bottom: 0.5px solid #DEE2E6;
+    border-top: 0.5px solid #DEE2E6;
+    min-width: 180px;
     text-align: center;
     min-height: 15px
   }
@@ -128,7 +128,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
     padding: 2px 2px;
     border-bottom: 0.5px solid #DEE2E6;
     border-top: 0.5px solid #DEE2E6;
-    min-width: 70px;
+    min-width: 100px;
     text-align: center;
     min-height: 15px
   }	
@@ -211,40 +211,52 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         <div class="table-cell sticky bg-blue-custom">Robros</div>
         <div class="table-cell sticky-col-2 bg-blue-custom">Presupuesto</div>
         <div class="table-cells">Enero</div>
-        <div class="table-cells">% Ejec. Enero</div>
+        <div class="table-cells">% Ejec. En.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Febrero</div>
-        <div class="table-cells">% Ejec. Febrero</div>
+        <div class="table-cells">% Ejec. Feb.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Marzo</div>
-        <div class="table-cells">% Ejec. Marzo</div>
+        <div class="table-cells">% Ejec. Mar.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Abril</div>
-        <div class="table-cells">% Ejec. Abril</div>
+        <div class="table-cells">% Ejec. Abr.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Mayo</div>
-        <div class="table-cells">% Ejec. Mayo</div>
+        <div class="table-cells">% Ejec. May.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Junio</div>
-        <div class="table-cells">% Ejec. Junio</div>
+        <div class="table-cells">% Ejec. Ju.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Julio</div>
-        <div class="table-cells">% Ejec. Julio</div>
+        <div class="table-cells">% Ejec. Jul.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Agosto</div>
-        <div class="table-cells">% Ejec. Agosto</div>
+        <div class="table-cells">% Ejec. Ag.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Septiembre</div>
         <div class="table-cells">% Ejec. Septiembre</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Octubre</div>
-        <div class="table-cells">% Ejec. Octubre</div>
+        <div class="table-cells">% Ejec. Oct.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Noviembre</div>
-        <div class="table-cells">% Ejec. Noviembre</div>
+        <div class="table-cells">% Ejec. Nov.</div>
+        <div class="table-cells">% Participación</div>
 
         <div class="table-cells">Diciembre</div>
-        <div class="table-cells">% Ejec. Diciembre</div>
+        <div class="table-cells">% Ejec. Dic.</div>
+        <div class="table-cells">% Participación</div>
 
       </div>
       
@@ -262,6 +274,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
             echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
             $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
             echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+            echo '<div class="table-cells bg-white">' . number_format(0, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -280,6 +293,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
             echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
             $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
             echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+            echo '<div class="table-cells bg-white">' . number_format(0, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -297,6 +311,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
             echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
             $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
             echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+            echo '<div class="table-cells bg-white">' . number_format(0, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -317,12 +332,12 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
             echo '<div class="table-cells bg-white">' . number_format($valorMes, 2) . "</div>";
             $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
             echo '<div class="table-cells bg-white">' . number_format($porcentajeMes, 2) . "%</div>";
+            echo '<div class="table-cells bg-white">' . number_format(0, 2) . ' %</div>';
           }
         ?>
       </div>
 
-
-      
+      <br>
 
       <div>
         <div class="table-row table-category sticky-y-6">
@@ -339,6 +354,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
               echo '<div class="table-cells bg-blue-custom">' . number_format($valorEjecutado, 2) . '</div>';
               $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
               echo '<div class="table-cells bg-blue-custom">' . number_format($porcentaje, 2) . ' %</div>';
+              echo '<div class="table-cells bg-blue-custom">' . number_format(0, 2) . ' %</div>';
             }
           ?>
         </div>

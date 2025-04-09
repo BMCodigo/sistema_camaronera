@@ -210,6 +210,7 @@ class ModeloTrazabilidadEjecucion {
               $html .= "<div class='table-cells bg-white'>" . number_format($valorMes, 2) . "</div>";
               $porcentajeMes = ($presupuesto_aprobado > 0) ? ($valorMes / $presupuesto_aprobado * 100) : 0;
               $html .= "<div class='table-cells bg-white'>" . number_format($porcentajeMes, 2) . "%</div>";
+              $html .= "<div class='table-cells bg-white'>" . number_format(0, 2) . "%</div>";
             }
           $html .= "</div>";
           
@@ -287,15 +288,14 @@ class ModeloTrazabilidadEjecucion {
       
         $html .= "<div class='table-row table-category'>
             <div class='table-cell sticky bg-blue-custom'>$titulo</div>
-            <div class='table-cell sticky-col-2 bg-blue-custom'>" . number_format($totalPresupuesto, 2) . "</div>
-            <div class='table-cells bg-blue-custom'>" . number_format($totalCostoEjecutado, 2) . "</div>
-            <div class='table-cells bg-blue-custom' style='color:$color;'>" . number_format($porcentaje, 2) . "%</div>";
+            <div class='table-cell sticky-col-2 bg-blue-custom'>" . number_format($totalPresupuesto, 2) . "</div>";
       
         // Agregar 12 columnas (una por mes)
         foreach ($costosMensuales as $mes => $valorMes) {
           $html .= "<div class='table-cells bg-blue-custom'>" . number_format($valorMes, 2) . "</div>";
           $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
           $html .= "<div class='table-cells bg-blue-custom'>" . number_format($porcentajeMes, 2) . "%</div>";
+          $html .= "<div class='table-cells bg-blue-custom'>" . number_format(0, 2) . "%</div>";
         }
       
         $html .= "</div>";
