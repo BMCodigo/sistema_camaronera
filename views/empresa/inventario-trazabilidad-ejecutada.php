@@ -18,7 +18,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
   .scrollable-section thead {
     position: sticky;
     top: 0;
-    background: #404e67;
+    background: #404E67;
     z-index: 2;
   }
 
@@ -112,19 +112,29 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
     width: max-content;
     top: 0;
     z-index: 10;
-    background-color:#404e67;
+    background-color: #404e67;
   }
 
   .table-cell {
-    padding: 4px 2px;
-    border: 1px solid black;
+    padding: 2px 2px;
+    border-bottom: 1px solid #DEE2E6;
+    border-top: 1px solid #DEE2E6;
     min-width: 250px;
     text-align: center;
-    min-height: 20px
+    min-height: 15px
   }
 
+  .table-cells {
+    padding: 2px 2px;
+    border-bottom: 1px solid #DEE2E6;
+    border-top: 1px solid #DEE2E6;
+    min-width: 70px;
+    text-align: center;
+    min-height: 15px
+  }	
+
   .table-category {
-    background-color:#404e67;
+    background-color: #404E67;
     color: white;
     font-weight: bold;
     text-align: left;
@@ -135,7 +145,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
   }
 
   .bg-blue-custom {
-    background-color:#404e67;
+    background-color: #404E67;
   }
 
 </style>
@@ -159,7 +169,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
 
     <div class="p-2 bd-highlight">
       <a href="index.php?page=detalle_piscina_insumos" class="text-white text-decoration-none">
-        <li class="list-group-item  text-white text-center" style="background: #404e67; border-radius: 10px; height: 30px; padding: 7px 10px; font-size: 14px; line-height: 1;">Aplicación de insumos general</li>
+        <li class="list-group-item  text-white text-center" style="background: #404E67; border-radius: 10px; height: 30px; padding: 7px 10px; font-size: 14px; line-height: 1;">Aplicación de insumos general</li>
       </a>
     </div>
 
@@ -168,7 +178,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         $piscinasData = $modelo->getHectareasEnProceso();
       ?>
       <a href="index.php?page=detalle_piscina.php&piscina=<?php echo $piscinasData[0]['id_piscina']; ?>&ha=<?php echo $piscinasData[0]['hectareas']; ?>" class="text-white text-decoration-none">
-        <li class="list-group-item text-white text-center" style="background: #404e67; border-radius: 10px; height: 30px; padding: 7px 10px; font-size: 14px; line-height: 1;">
+        <li class="list-group-item text-white text-center" style="background: #404E67; border-radius: 10px; height: 30px; padding: 7px 10px; font-size: 14px; line-height: 1;">
           Detalle por piscina </li>
       </a>
     </div>
@@ -200,41 +210,41 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
       <div class="table-header sticky-y-1">
         <div class="table-cell sticky bg-blue-custom">Robros</div>
         <div class="table-cell sticky-col-2 bg-blue-custom">Presupuesto</div>
-        <div class="table-cell">Enero</div>
-        <div class="table-cell">% Ejec. Enero</div>
+        <div class="table-cells">Enero</div>
+        <div class="table-cells">% Ejec. Enero</div>
 
-        <div class="table-cell">Febrero</div>
-        <div class="table-cell">% Ejec. Febrero</div>
+        <div class="table-cells">Febrero</div>
+        <div class="table-cells">% Ejec. Febrero</div>
 
-        <div class="table-cell">Marzo</div>
-        <div class="table-cell">% Ejec. Marzo</div>
+        <div class="table-cells">Marzo</div>
+        <div class="table-cells">% Ejec. Marzo</div>
 
-        <div class="table-cell">Abril</div>
-        <div class="table-cell">% Ejec. Abril</div>
+        <div class="table-cells">Abril</div>
+        <div class="table-cells">% Ejec. Abril</div>
 
-        <div class="table-cell">Mayo</div>
-        <div class="table-cell">% Ejec. Mayo</div>
+        <div class="table-cells">Mayo</div>
+        <div class="table-cells">% Ejec. Mayo</div>
 
-        <div class="table-cell">Junio</div>
-        <div class="table-cell">% Ejec. Junio</div>
+        <div class="table-cells">Junio</div>
+        <div class="table-cells">% Ejec. Junio</div>
 
-        <div class="table-cell">Julio</div>
-        <div class="table-cell">% Ejec. Julio</div>
+        <div class="table-cells">Julio</div>
+        <div class="table-cells">% Ejec. Julio</div>
 
-        <div class="table-cell">Agosto</div>
-        <div class="table-cell">% Ejec. Agosto</div>
+        <div class="table-cells">Agosto</div>
+        <div class="table-cells">% Ejec. Agosto</div>
 
-        <div class="table-cell">Septiembre</div>
-        <div class="table-cell">% Ejec. Septiembre</div>
+        <div class="table-cells">Septiembre</div>
+        <div class="table-cells">% Ejec. Septiembre</div>
 
-        <div class="table-cell">Octubre</div>
-        <div class="table-cell">% Ejec. Octubre</div>
+        <div class="table-cells">Octubre</div>
+        <div class="table-cells">% Ejec. Octubre</div>
 
-        <div class="table-cell">Noviembre</div>
-        <div class="table-cell">% Ejec. Noviembre</div>
+        <div class="table-cells">Noviembre</div>
+        <div class="table-cells">% Ejec. Noviembre</div>
 
-        <div class="table-cell">Diciembre</div>
-        <div class="table-cell">% Ejec. Diciembre</div>
+        <div class="table-cells">Diciembre</div>
+        <div class="table-cells">% Ejec. Diciembre</div>
 
       </div>
       
@@ -249,9 +259,9 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         <?php
           for ($mes = 1; $mes <= 12; $mes++) {
             $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
-            echo '<div class="table-cell bg-white">' . number_format($valorEjecutado, 2) . '</div>';
+            echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
             $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
-            echo '<div class="table-cell bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+            echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -267,9 +277,9 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         <?php
           for ($mes = 1; $mes <= 12; $mes++) {
             $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
-            echo '<div class="table-cell bg-white">' . number_format($valorEjecutado, 2) . '</div>';
+            echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
             $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
-            echo '<div class="table-cell bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+            echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -287,9 +297,9 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
           $totalPresupuesto = $sqlRubros['presupuesto'];
           
           foreach ($costosMensuales as $mes => $valorMes) {
-            echo '<div class="table-cell bg-white">' . number_format($valorMes, 2) . "</div>";
+            echo '<div class="table-cells bg-white">' . number_format($valorMes, 2) . "</div>";
             $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
-            echo '<div class="table-cell bg-white">' . number_format($porcentajeMes, 2) . "%</div>";
+            echo '<div class="table-cells bg-white">' . number_format($porcentajeMes, 2) . "%</div>";
           }
         ?>
       </div>
@@ -303,9 +313,9 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         <?php
           for ($mes = 1; $mes <= 12; $mes++) {
             $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
-            echo '<div class="table-cell bg-white">' . number_format($valorEjecutado, 2) . '</div>';
+            echo '<div class="table-cells bg-white">' . number_format($valorEjecutado, 2) . '</div>';
             $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
-            echo '<div class="table-cell bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+            echo '<div class="table-cells bg-white">' . number_format($porcentaje, 2) . ' %</div>';
           }
         ?>
       </div>
@@ -323,9 +333,9 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
           <?php
             for ($mes = 1; $mes <= 12; $mes++) {
               $valorEjecutado = isset($costosPorMes[$mes]) ? $costosPorMes[$mes] : 0;
-              echo '<div class="table-cell bg-white">' . number_format($valorEjecutado, 2) . '</div>';
+              echo '<div class="table-cells bg-blue-custom">' . number_format($valorEjecutado, 2) . '</div>';
               $porcentaje = ($sqlHa['hectareas'] > 0) ? ($valorEjecutado / $sqlHa['hectareas']) * 100 : 0;
-              echo '<div class="table-cell bg-white">' . number_format($porcentaje, 2) . ' %</div>';
+              echo '<div class="table-cells bg-blue-custom">' . number_format($porcentaje, 2) . ' %</div>';
             }
           ?>
         </div>
