@@ -206,7 +206,7 @@ class ModeloTrazabilidadEjecucion {
             <div class='table-cell sticky bg-white'>" . ucfirst($descripcion) . "</div>
             <div class='table-cell sticky-col-2 bg-white'>" . number_format($presupuesto_aprobado, 2) . "</div>";
             $costosMensuales = $this->getCostosMensualesPorFamilia($item['descripcion']);
-            $Mensuales = $this->getAllMesMes("'materia_prima'");
+            $Mensuales = $this->getAllMesMes("'materia_prima', 'mano_obra', 'indirectos'");
             foreach ($costosMensuales as $mes => $valorMes) {
               $html .= "<div class='table-cells bg-white'>" . number_format($valorMes, 2) . "</div>";
               $porcentajeMes = ($presupuesto_aprobado > 0) ? ($valorMes / $presupuesto_aprobado * 100) : 0;
@@ -247,7 +247,7 @@ class ModeloTrazabilidadEjecucion {
       
       public function getResumenCuentaCabeceraObra($cuentaMadre) {
         $html = "";
-      
+    
         // Obtener presupuesto total
         $sqlPresupuesto = "SELECT 
             SUM(p.presupuesto_aprobado) AS presupuesto_aprobado_camaronera, 
@@ -261,10 +261,10 @@ class ModeloTrazabilidadEjecucion {
             WHERE id_camaronera = '{$this->camaronera}' 
             AND cuentaMadre = '$cuentaMadre'
             )";
-      
+    
         $data = $this->conectar->mostrar($sqlPresupuesto);
         $totalPresupuesto = isset($data[0]['presupuesto_aprobado_camaronera']) ? $data[0]['presupuesto_aprobado_camaronera'] : 0;
-      
+    
         // Obtener ejecución total
         $sqlEjecutadoCamaronera = "SELECT 
             SUM(t1.total) AS costoTotal
@@ -276,35 +276,51 @@ class ModeloTrazabilidadEjecucion {
             WHERE t2.estado = 'En proceso'
             AND t1.cuentaMadre = '$cuentaMadre'
             AND t1.id_camaronera = '{$this->camaronera}'";
-      
+    
         $dataEjecutado = $this->conectar->mostrar($sqlEjecutadoCamaronera);
         $totalCostoEjecutado = isset($dataEjecutado[0]['costoTotal']) ? $dataEjecutado[0]['costoTotal'] : 0;
-      
+    
         $porcentaje = ($totalPresupuesto > 0) ? ($totalCostoEjecutado / $totalPresupuesto) * 100 : 0;
         $hue = max(0, min(120 - ($porcentaje * 1.2), 120));
         $color = "hsl($hue, 80%, 40%)";
-      
+    
         $titulo = ucfirst(str_replace('_', ' ', $cuentaMadre));
-      
-        // Obtener costos mensuales
+    
+        // ✅ Obtener costos mensuales de la cuenta madre específica
         $costosMensuales = $this->getCostosMensualesPorCuentaMadre($cuentaMadre);
-      
+    
+        // ✅ Obtener costos mensuales del total de todas las cuentas madre
+        $costosTotalesMes = $this->getAllMesMes("'materia_prima', 'mano_obra', 'indirectos'");
+    
         $html .= "<div class='table-row table-category'>
             <div class='table-cell sticky bg-blue-custom'>$titulo</div>
             <div class='table-cell sticky-col-2 bg-blue-custom'>" . number_format($totalPresupuesto, 2) . "</div>";
-      
-        // Agregar 12 columnas (una por mes)
+    
+        // ✅ Recorrer los meses
         foreach ($costosMensuales as $mes => $valorMes) {
-          $html .= "<div class='table-cells bg-blue-custom'>" . number_format($valorMes, 2) . "</div>";
-          $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
-          $html .= "<div class='table-cells bg-blue-custom'>" . number_format($porcentajeMes, 2) . "%</div>";
-          $html .= "<div class='table-cells bg-blue-custom'>" . number_format(0, 2) . "%</div>";
+            // Estilo para alternar color
+            $bgStyle = ($mes % 2 == 1) 
+                ? "style='background: #fbd9cb; color:black;'" 
+                : "";
+    
+            // ✅ Monto por mes de la cuenta madre
+            $html .= "<div class='table-cells bg-blue-custom' $bgStyle>" . number_format($valorMes, 2) . "</div>";
+    
+            // ✅ Porcentaje sobre el total del presupuesto
+            $porcentajeMes = ($totalPresupuesto > 0) ? ($valorMes / $totalPresupuesto * 100) : 0;
+            $html .= "<div class='table-cells bg-blue-custom' $bgStyle>" . number_format($porcentajeMes, 2) . "%</div>";
+    
+            // ✅ Porcentaje de participación sobre el total del mes (de todas las cuentas madre)
+            $valorTotalMes = isset($costosTotalesMes[$mes]) ? $costosTotalesMes[$mes] : 0;
+            $porcentajeParticipacion = ($valorTotalMes > 0) ? ($valorMes / $valorTotalMes * 100) : 0;
+            $html .= "<div class='table-cells bg-blue-custom' $bgStyle>" . number_format($porcentajeParticipacion, 2) . "%</div>";
         }
-      
+    
         $html .= "</div>";
-      
+    
         return $html;
-      }
+    }
+    
       
       
 
@@ -372,6 +388,26 @@ class ModeloTrazabilidadEjecucion {
       return $meses;
     }
     
+    //funcion retorna los dias de cada mes ejemple enero 31, 
+    //febrero 28, marzo 31, abril 30, mayo 31, junio 30, 
+    //julio 31, agosto 31, septiembre 30, octubre 31, noviembre 30, 
+    // diciembre 31 en un array
+    public function getDiasMeses() {
+      return [
+        1 => 31,
+        2 => 28, // No considera años bisiestos
+        3 => 31,
+        4 => 30,
+        5 => 31,
+        6 => 30,
+        7 => 31,
+        8 => 31,
+        9 => 30,
+        10 => 31,
+        11 => 30,
+        12 => 31
+      ];
+    }
 
   }
   
