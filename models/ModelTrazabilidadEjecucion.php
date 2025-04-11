@@ -365,8 +365,11 @@ class ModeloTrazabilidadEjecucion {
     }	
 
     public function getMesActual($tablas) {
+      // Obtener dinámicamente el primer día del mes actual
+      $inicioMes = date('Y-m-01'); // Ejemplo: 2025-04-01
+      $hoy = date('Y-m-d'); // Ejemplo: 2025-04-10
+  
       $sql = "SELECT 
-                  EXTRACT(MONTH FROM t1.fecha_consumo) AS mes, 
                   SUM(t1.total) AS costoTotal 
               FROM costos_camaronera t1 
               JOIN registro_piscina_engorde t2 
@@ -374,21 +377,14 @@ class ModeloTrazabilidadEjecucion {
                   AND t1.id_piscina = t2.id_piscina 
                   AND t1.id_corrida = t2.id_corrida 
               WHERE t2.estado = 'En proceso' 
-                  AND t1.fecha_consumo BETWEEN '2025-01-01' AND CURRENT_DATE 
-                  AND t1.cuentaMadre IN ($tablas) 
-                  AND EXTRACT(MONTH FROM t1.fecha_consumo) = EXTRACT(MONTH FROM CURRENT_DATE)
-              GROUP BY mes";
+                  AND t1.fecha_consumo BETWEEN '$inicioMes' AND '$hoy'
+                  AND t1.cuentaMadre IN ($tablas)";
   
       $result = $this->conectar->mostrar($sql);
   
-      $mesActual = date('n'); // Mes actual sin ceros iniciales (1-12)
-      $meses = array_fill(1, 12, 0); // Inicializa todos los meses en cero
-      foreach ($result as $row) {
-          $meses[$mesActual] = (float)$row['costoTotal'];
-      }
-  
-      return $meses;
+      return isset($result[0]['costoTotal']) ? (float)$result[0]['costoTotal'] : 0;
     }
+  
   
 
     private function getCostosMensualesPorFamilia($familia) {

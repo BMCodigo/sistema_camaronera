@@ -330,6 +330,7 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
             echo number_format($sqlRubros['presupuesto'], 2);
           ?>
         </div>
+
         <?php
           $costosMensuales = $modelo->getAllMesMes("'materia_prima', 'mano_obra', 'indirectos'");
           $totalPresupuesto = $sqlRubros['presupuesto'];
