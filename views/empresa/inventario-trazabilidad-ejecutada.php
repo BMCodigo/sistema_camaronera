@@ -191,6 +191,12 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
         echo $descripcion['descripcion_camaronera'];
       ?>
     </h5>
+
+    <div class="container d-flex justify-content-center align-items-center mb-3">
+      <label style="margin-right: 10px; font-weight: bold;">Ver solo mes actual</label>
+      <input type="checkbox" id="toggleMesActual" onchange="toggleMesActual()" />
+    </div>
+
   </div>
 
   <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -398,3 +404,36 @@ $modelo = new ModeloTrazabilidadEjecucion($conectar, $camaronera);
   </div>
   
 </div>
+
+
+<script>
+function toggleMesActual() {
+  const checkbox = document.getElementById('toggleMesActual');
+  const mesActual = new Date().getMonth(); // 0 para enero, 11 para diciembre
+
+  const columnasPorMes = 3; // Tu estructura es: Valor, % Ejec., % Part.
+  const totalMeses = 12;
+
+  // Selecciona todas las filas que tienen celdas por mes
+  const filas = document.querySelectorAll('.table-row, .table-header');
+
+  filas.forEach(fila => {
+    const celdas = fila.querySelectorAll('.table-cells');
+    celdas.forEach((celda, index) => {
+      const mesIndex = Math.floor(index / columnasPorMes);
+      if (checkbox.checked) {
+        // Mostrar solo las columnas del mes actual
+        if (mesIndex === mesActual) {
+          celda.style.display = '';
+        } else {
+          celda.style.display = 'none';
+        }
+      } else {
+        // Mostrar todas las columnas
+        celda.style.display = '';
+      }
+    });
+  });
+}
+</script>
+
